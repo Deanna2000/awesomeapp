@@ -5,11 +5,10 @@
     4. Adding components to DOM
     5. Clearing fields
 */
+
+
 const DomBuilder = require("./DomBuilder")
-
-
-
-
+const cardFactory = require("./CardFactory")
 
 
 
@@ -38,13 +37,6 @@ const buttonFactory = (classList, textContent) => {
     return theButton
 }
 
-// Create card component
-const cardFactory = (classList, textContent) => {
-    const theSection = document.createElement("section")
-    theSection.classList = classList
-    theSection.textContent = textContent
-    return theSection
-}
 
 const createCardButton = buttonFactory("button--submit", "Create Card")
 const cardTextInput = inputFieldFactory("input--text", "Enter card text here", "text")
