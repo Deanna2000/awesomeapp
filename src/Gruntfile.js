@@ -1,21 +1,29 @@
-module.exports = function(grunt) {
-
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-
-    grunt.initConfig({
-      jshint: {
-        files: ['./scripts/**/*.js']
-      },
+module.exports = function (grunt) {
+  // Project configuration.
+  grunt.initConfig({
+      pkg: grunt.file.readJSON("package.json"),
       watch: {
-        options: {
-          livereload: true,
-        },
-        javascripts: {
-          files: ['./scripts/**/*.js'],
-          tasks: ['jshint']
-        }
+          scripts: {
+              files: [
+                  "./scripts/**/*.js",
+                  "!node_modules/**/*.js"
+              ],
+              tasks: ["eslint"],
+              options: {
+                  spawn: false,
+              },
+          }
+      },
+      eslint: {
+          src: [
+              "./scripts/**/*.js",
+              "!node_modules/**/*.js"
+          ]
       }
-    });
-
-    grunt.registerTask('default', ['jshint', 'watch']);
-  };
+  });
+  // Load the plugin that provides the "uglify" task.
+  grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-eslint");
+  // Default task(s).
+  grunt.registerTask("default", ["eslint", "watch"]);
+};
