@@ -1,23 +1,34 @@
-// Bring in the DomBuilder functionality
-// const DomBuilder = require("./DomBuilder")
+/* Modules
+    1. Creating fragments
+    2. Creating components with factories
+    3. Adding event listeners to components
+    4. Adding components to DOM
+    5. Clearing fields
+*/
+const DomBuilder = require("./DomBuilder")
 
 
-// DOM location for output
+
+
+
+
+
+// Final output DOM component reference
 const output = document.querySelector(".output")
 
-// Fragment to hold everything
+// Fragment to hold all the stuff so we inject into the DOM once
 const fragment = document.createDocumentFragment()
 
 // Create factory function to generate components
 // Create input component
 const inputFieldFactory = (classList, defaultPlaceholderText, type) => {
     const inputField = document.createElement("input")
-    inputField.classList = classList
-    // inputField.value = value
-    inputField.placeholder = defaultPlaceholderText
     inputField.setAttribute("type", type)
+    inputField.classList = classList
+    inputField.placeholder = defaultPlaceholderText
     return inputField
 }
+
 
 // Create button component
 const buttonFactory = (classList, textContent) => {
@@ -27,35 +38,33 @@ const buttonFactory = (classList, textContent) => {
     return theButton
 }
 
-const cardFactory = (classList, textInputValue) => {
+// Create card component
+const cardFactory = (classList, textContent) => {
     const theSection = document.createElement("section")
     theSection.classList = classList
-    theSection.textContent = textInputValue
+    theSection.textContent = textContent
     return theSection
 }
-const cardTextInput = inputFieldFactory("input--text", "Enter card text here", "text")
-const createCardButton = buttonFactory("submit--button", "Create Card")
 
-createCardButton.addEventListener("click", function() {
+const createCardButton = buttonFactory("button--submit", "Create Card")
+const cardTextInput = inputFieldFactory("input--text", "Enter card text here", "text")
+
+/*
+    Attach event listener to button
+*/
+createCardButton.addEventListener("click", function () {
+    // 1. Get value of input field
     const userEntry = cardTextInput.value
+
+    // 2. Create card component with text inside
     output.appendChild(cardFactory("card", userEntry))
+
     cardTextInput.value = ""
 })
 
-buttonFactory(("button--submit"), "Create Card")
 fragment.appendChild(cardTextInput)
 fragment.appendChild(createCardButton)
 
-// DomBuilder(fragment,".output")
-output.appendChild(fragment)
 
-
-// Attach event listener to button
-
-
-// Get value of input field
-// Create card component with text inside
-
-// Create card component
-
-//
+DomBuilder(fragment, ".output")
+// output.appendChild(fragment)
